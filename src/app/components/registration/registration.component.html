@@ -1,0 +1,61 @@
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-card *ngIf="!isLoading">
+  <div class='matCardInside' style="height: 100%; width: 100%; background-color: white;">
+  <mat-card-header>
+    <mat-card-title>
+      <h3>Register</h3>
+    </mat-card-title>
+  </mat-card-header>
+  <form [formGroup]="registrationForm" (ngSubmit)="onRegister()">
+    <mat-card-content >
+      <mat-error *ngIf="submitted && error">{{error}}</mat-error>
+      <mat-form-field>
+        <input formControlName="name" matInput type="text" placeholder="Name">
+        <mat-error *ngIf="name.errors && name.touched">
+          <span *ngIf="name.errors.required">Please Enter your Name</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input formControlName="email" matInput type="email" placeholder="Email">
+        <mat-error *ngIf="email.errors && email.touched">
+          <span *ngIf="email.errors.required">Please Enter Your Email</span>
+          <span *ngIf="email.errors.pattern">Please Enter a valid Email</span>
+        </mat-error>
+      </mat-form-field>
+
+      <div formGroupName="passwordGroup">
+        <mat-form-field>
+          <input formControlName="password" matInput type="password" placeholder="Password">
+          <mat-error *ngIf="password.errors && password.touched">
+            <span *ngIf="password.errors.required">Please Enter Password</span>
+            <span *ngIf="password.errors.pattern">Password should be more than 8 and less than 24 characters and should contain<br>
+              1. "One Uppercase Letter"<br>
+              2. "One Lowercase Letter"<br>
+              3. "One Number"<br>
+              4. "One Special Symbol"</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field [class.error_gap]="password.errors?.pattern && password.touched">
+          <input formControlName="confirmPassword" matInput type="password" placeholder="Confirm Password">
+          <mat-error *ngIf="confirmPassword.errors?.required && confirmPassword.touched">Please Enter Confirm Password
+          </mat-error>
+        </mat-form-field>
+        <small style="text-align: center;">
+          <mat-error *ngIf="passwordGroup.errors?.mismatch && !password.errors && confirmPassword.touched && password.touched">Password
+            and Confirm Password does not match</mat-error>
+        </small>
+      </div>
+      <mat-error>{{error}}</mat-error>
+    </mat-card-content>
+
+    <mat-card-footer>
+      <mat-card-actions>
+        <button mat-raised-button #button [disabled]="registrationForm.invalid" type="submit"
+          color="primary">Register</button><br><br>
+        <a mat-button routerLink="/login">Already registered? Please login</a>
+      </mat-card-actions>
+    </mat-card-footer>
+  </form>
+</div>
+</mat-card>

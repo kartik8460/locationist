@@ -1,0 +1,47 @@
+<div class="container-main">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <div class="container" *ngIf="!isLoading">
+    <div class="location-list">
+
+      <mat-card class="user-location">
+          <mat-card-title><mat-icon>my_location</mat-icon> Your Location</mat-card-title>
+      </mat-card>
+
+      <mat-card *ngFor="let location of locationDetails; let i = index">
+        <mat-card-title (click)="goToLocation(location._id)">
+          {{i+1}}. {{location.name}}
+        </mat-card-title>
+        <mat-card-content>
+          {{location.address.line_1}}, <br>
+          <div *ngIf="location.address.line_2">{{location.address.line_2}},<br></div>
+          {{location.address.city}},<br>
+          {{location.address.state_ut}} - {{location.address.zipcode}}<br>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+
+    <div class="map-container">
+      <google-map height="100%" width="100%" [zoom]="12" [center]="center">
+        <map-marker #userLocation
+          [position]="{ lat: latitude, lng: longitude}"
+          [label]="{color: 'black', text: '0'}"
+          [title]="'You are Here'"
+          (mapClick)="openInfo(userLocation, 'You are here')"
+          [options]="userOption">
+            <map-info-window>
+              <strong>{{infocontent}}</strong>
+            </map-info-window>
+        </map-marker>
+        <map-marker #marker
+          *ngFor="let location of locationDetails; let i = index"
+          [position]="{ lat: location.loc.coordinates[1], lng:location.loc.coordinates[0]}"
+          [label]="{color: 'black', text: (i+1).toString()}"
+          (mapClick)="openInfo(marker, location.name)">
+          <map-info-window>{{infocontent}}</map-info-window>
+        </map-marker>
+      </google-map>
+    </div>
+  </div>
+
+</div>

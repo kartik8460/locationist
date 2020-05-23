@@ -1,0 +1,81 @@
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <div *ngIf="!isLoading">
+    <mat-card-header style="justify-content: center;">
+      <mat-card-title *ngIf="mode_create"><h3>Add Post</h3></mat-card-title>
+      <mat-card-title *ngIf="!mode_create"><h3>Update Post</h3></mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="addPostForm" (ngSubmit)="onAddPost()">
+    <mat-card-content>
+      <div class="after-search" *ngIf="locationId.value && selectedLocation">
+        <mat-label>{{selectedLocation.name}}</mat-label> <button type="button" (click)="changeLocation()" mat-raised-button color="warn"><mat-icon fontSet="material-icons-outlined">location_on</mat-icon>Change Location</button>
+      </div>
+      <mat-form-field>
+        <input formControlName="title" matInput color="accent" placeholder="Title" type="text">
+        <mat-error *ngIf="title.errors?.required">Title is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea formControlName="description" matInput color="accent" placeholder="Description" type="text"></textarea>
+        <mat-error *ngIf="description.errors?.required">Description is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" *ngIf="!locationId.value">
+        <input type="text" (keyup)="onKeyUpSearch($event.target.value)" placeholder="Location" aria-label="Number" matInput [formControl]="location" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayfn" (optionSelected)="optionSelected($event.option.value._id)">
+          <mat-option *ngFor="let option of searchOptions" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <div class="media_preview" *ngIf="image_preview.length > 0">
+        <mat-label> <span *ngIf="!mode_create">New </span>Images:</mat-label> <br>
+        <div class="preview_inside" *ngFor="let image of image_preview; let i=index;">
+          <button (click)="removeImage(i)">X</button>
+          <img [src]="image" [alt]="image">
+        </div><br>
+      </div>
+
+      <div class="media_preview" *ngIf="!mode_create && image_preview_old.length > 0">
+        <mat-label>Previous Images:</mat-label> <br>
+        <div class="preview_inside" *ngFor="let image_old of image_preview_old; let i=index;">
+          <button (click)="removeOldImage(i)">X</button>
+          <img [src]="image_old" [alt]="">
+        </div> <br>
+      </div>
+
+      <div class="media_preview" *ngIf="video_preview.length > 0">
+        <mat-label> <span *ngIf="!mode_create">New </span>Videos:</mat-label> <br>
+        <div class="preview_inside" *ngFor="let video of video_preview; let i=index;">
+          <button (click)="removeVideo(i)">X</button>
+          <video style="background-color: darkgrey;"><source [src]="domSanitizer.bypassSecurityTrustUrl(video)"></video>
+        </div><br>
+      </div>
+
+      <div class="media_preview" *ngIf="!mode_create && video_preview_old.length > 0">
+        <mat-label>Previous Videos:</mat-label> <br>
+        <div class="preview_inside" *ngFor="let video_old of video_preview_old; let i=index;">
+          <button (click)="removeOldVideo(i)">X</button>
+          <video style="background-color: darkgrey;"><source [src]="video_old"></video>
+        </div><br>
+      </div>
+
+      <input accept="image/*,video/*" #upload_images (change)="uploadImages($event)" hidden type="file" multiple>
+      <button style="margin-top: 10px;" mat-flat-button color="accent" type="button" (click)="upload_images.click()"><mat-icon>add_a_photo</mat-icon></button>
+      <mat-error>{{media_error}}</mat-error>
+
+      </mat-card-content>
+
+      <mat-card-footer>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" type="submit">
+            <span *ngIf="mode_create">Upload</span>
+            <span *ngIf="!mode_create">Update</span>
+          </button>
+          <button mat-raised-button color="warn" type="button" routerLink="/">Cancel</button>
+        </mat-card-actions>
+      </mat-card-footer>
+    </form>
+  </div>
+</mat-card>

@@ -1,0 +1,169 @@
+<div class="container" *ngIf="locationDetails">
+  <div class="upper-container">
+    <div class="cover">
+      <img *ngIf="locationDetails?.cover_pic" [src]="locationDetails?.cover_pic">
+      <div class="loc-heading"><mat-label><strong>{{locationDetails?.name}}</strong></mat-label></div>
+      <div class="review-post">
+        <a mat-raised-button [routerLink]="['/add-post', { locationId: locationDetails._id }]" color="accent"><mat-icon>camera_alt</mat-icon></a>
+        <a mat-raised-button [routerLink]="['/add-review', { locationId: locationDetails._id }]" color="accent"><mat-icon>create</mat-icon></a>
+      </div>
+    </div>
+  </div>
+  <div class="location-info">
+    <div class="info-container">
+      <div class="info-header"><mat-label><strong>Description</strong></mat-label></div>
+      <div class="info-content"><mat-label>{{locationDetails?.description}}</mat-label></div>
+    </div>
+
+    <div class="info-container" *ngIf="locationDetails.address">
+      <div class="info-header"><mat-label><strong>Address</strong></mat-label></div>
+      <div class="info-content">
+        <mat-label>{{locationDetails.address.line_1}}</mat-label>
+        <mat-label *ngIf="locationDetails.address.line_2">{{locationDetails.address.line_2}}</mat-label>
+        <mat-label>{{locationDetails.address.city}}</mat-label>
+        <mat-label>{{locationDetails.address.state_ut}} - {{locationDetails.address.zipcode}}</mat-label>
+      </div>
+    </div>
+
+    <div class="info-container" *ngIf="locationDetails.location_website">
+        <a mat-button [href]="locationDetails.location_website" target="_blank">
+          <mat-icon>public</mat-icon>
+          {{locationDetails.location_website}}
+        </a>
+    </div>
+
+    <div class="info-container" *ngIf="locationDetails.phone_number">
+      <mat-label><mat-icon style="vertical-align: -7px;">phone</mat-icon>+91{{locationDetails.phone_number}}</mat-label>
+    </div>
+
+  </div>
+
+    <mat-tab-group mat-stretch-tabs dynamicHeight backgroundColor="primary" (selectedTabChange)="tabSelected($event)">
+      <mat-tab label="Maps & Rating">
+        <div class="middle-container">
+          <div class="rating-scorecard">
+            <div class="rating-head">
+              <div>Rating Scorecard</div>
+              <!-- mat-icon condition [class.hover-gold]="star <= rating" *ngFor="let star of stars" -->
+            </div>
+            <div class="average-rating">
+              <mat-label>Average rating 4.1 based on x reviews</mat-label>
+            </div>
+            <div class="scorecard">
+              <div class="left">5</div>
+              <div class="middle">
+                <div class="bar">
+                  <div class="bar-result" style="width: 40%; background-color:#4CAF50"></div>
+                </div>
+              </div>
+              <div class="right">25</div>
+              <div class="left">4</div>
+              <div class="middle">
+                <div class="bar">
+                  <div class="bar-result" style="width: 30%; background-color: #2196F3"></div>
+                </div>
+              </div>
+              <div class="right">52</div>
+              <div class="left">3</div>
+              <div class="middle">
+                <div class="bar">
+                  <div class="bar-result" style="width: 15%; background-color: #00bcd4"></div>
+                </div>
+              </div>
+              <div class="right">45</div>
+              <div class="left">2</div>
+              <div class="middle">
+                <div class="bar">
+                  <div class="bar-result" style="width: 10%; background-color: #ff9800"></div>
+                </div>
+              </div>
+              <div class="right">25</div>
+              <div class="left">1</div>
+              <div class="middle">
+                <div class="bar">
+                  <div class="bar-result" style="width: 5%; background-color: #f44336"></div>
+                </div>
+              </div>
+              <div class="right">52</div>
+            </div>
+          </div>
+          <div class="map-container">
+            <div class="map" *ngIf="locationDetails?.loc">
+              <google-map height="100%" width="100%" [zoom]="12" [center]="{lat: locationDetails.loc.coordinates[1], lng: locationDetails.loc.coordinates[0]}">
+                <map-marker #marker
+                [position]="{ lat: locationDetails.loc.coordinates[1], lng:locationDetails.loc.coordinates[0]}"
+                (mapClick)="openInfo(marker, locationDetails.name)">
+                <map-info-window><strong>{{infocontent}}</strong></map-info-window>
+                </map-marker>
+              </google-map>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Reviews">
+        <div class="reviews-tab">
+          <mat-card *ngFor="let review of reviewsList; let i = index" class="mat-elevation-z10">
+            <mat-card-header>
+              <div mat-card-avatar class="review-image">
+                <img [src]="review.userId.profile_pic">
+              </div>
+              <mat-card-title (click)="gotoProfile(review.userId._id)">
+                {{review.userId.first_name}} {{review.userId.last_name}} <br>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-label>{{review.rating}}<mat-icon>star</mat-icon></mat-label>
+              <p>{{review.review}}</p>
+            </mat-card-content>
+            <mat-card-actions *ngIf="review.userId._id == userId">
+              <a mat-raised-button color="accent" [routerLink]="['/add-review', { id:review.locationId._id }]">Edit</a>
+              <button mat-raised-button color="warn" (click)="deleteReview(review._id, i)">Delete</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Posts">
+        <div class="posts-tab">
+          <mat-card *ngFor="let post of postsList; index as i;" class="mat-elevation-z8">
+            <mat-card-header>
+              <div mat-card-avatar class="review-image">
+                <img [src]="post.creatorId.profile_pic">
+              </div>
+              <mat-card-title (click)="gotoProfile(post.creatorId._id)"> {{post.creatorId.first_name}} {{post.creatorId.last_name}} </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <h3>{{post.title}}</h3>
+              <p style="text-align: justify;">{{post.description}}</p>
+              <!-- <div *ngFor="let image of post.imagesPaths">
+                <img [src]="image" [alt]="post.title">
+              </div>
+              <div *ngFor="let video of post.videosPaths">
+                <video style="background-color: darkgrey;" controls><source [src]="video"></video>
+              </div> -->
+
+              <div class="media_preview" *ngIf="post.imagesPaths.length > 0">
+                <mat-label>Images:</mat-label> <br>
+                <div class="preview_inside" *ngFor="let image of post.imagesPaths">
+                  <img [src]="image" [alt]="post.title" >
+                </div>
+              </div>
+              <br>
+              <div class="media_preview" *ngIf="post.videosPaths?.length > 0">
+                <mat-label>Videos:</mat-label> <br>
+                <div class="preview_inside" *ngFor="let video of post.videosPaths">
+                  <video style="background-color: darkgrey;" controls><source [src]="video"></video>
+                </div>
+              </div>
+
+            </mat-card-content>
+            <mat-card-actions *ngIf="post.creatorId._id === userId">
+              <a mat-raised-button color="primary" [routerLink]="['/edit_post',post._id]">Edit</a>
+              <button mat-raised-button color="warn" (click)="deletePost(post._id, i)">Delete</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>

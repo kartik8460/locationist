@@ -1,0 +1,73 @@
+<div class="upper-container" >
+  <div class="search">
+    <div class="search-input" *ngIf="!location">
+      <input (keyup)="onKeyupSearch($event.target.value)" [matAutocomplete]="searchResults" type="search" placeholder="Search Location"><button><mat-icon>search</mat-icon></button>
+      <mat-autocomplete #searchResults [displayWith]="displayfn" (optionSelected)="optionSelected($event.option.value._id)">
+        <mat-option *ngFor="let option of options" [value]="option"><mat-icon fontSet="material-icons-outlined">location_on</mat-icon>{{option.name}}</mat-option>
+      </mat-autocomplete>
+    </div>
+  </div>
+  <div class="after-search" *ngIf="location">
+    <mat-label>{{location.name}}</mat-label> <button (click)="changeLocation()" mat-raised-button color="warn"><mat-icon fontSet="material-icons-outlined">location_on</mat-icon>Change Location</button>
+  </div>
+</div>
+<div class="lower-container" *ngIf="location">
+  <div class="location-container">
+    <mat-card>
+      <mat-card-title>
+        Location Selected
+      </mat-card-title>
+      <hr>
+      <mat-card-content>
+        <div class="location-main">
+          <div class="location-pic" *ngIf="location.cover_pic">
+            <img [src]="location.cover_pic">
+          </div>
+          <div class="location-name">
+            <mat-label><strong>{{location.name}}</strong></mat-label>
+            <div class="location-address">
+              <span>{{location.address.line_1}} </span>
+              <span *ngIf="location.address.line_2">{{location.address.line_2}}</span>
+              <span>{{location.address.city}}</span>
+              <span>{{location.address.state_ut}} - {{location.address.zipcode}}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="review-container">
+    <mat-card>
+      <mat-card-title center="true">
+        Review
+      </mat-card-title>
+        <hr>
+      <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+        <mat-card-content>
+          <div class="rating">
+            <mat-label>Your overall rating for this location:</mat-label>
+            <ul>
+              <li *ngFor="let star of stars">
+                <mat-icon (mouseover)="hovered = star" (mouseout)="hovered = null" (click)="rated(star)"  [class.hover-gold]="star <= hovered || star <= rating.value">
+                  star
+                </mat-icon>
+              </li>
+            </ul>
+            <mat-error *ngIf="error" style="height: 16px; padding: 5px;">{{error}}</mat-error><br>
+            <mat-label *ngIf="rating.value"> Rating : {{rating.value}} <mat-icon style="color: gold; vertical-align: -6px;">star</mat-icon></mat-label>
+          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Write Review</mat-label>
+            <textarea matInput type="text" formControlName="review" placeholder="Please share your Experiece about"></textarea>
+            <mat-error *ngIf="review.touched && review.errors?.required"> Review should not be empty</mat-error>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions style="text-align: center;">
+          <button mat-raised-button color="primary" *ngIf="!edit_mode" [disabled]="reviewForm.invalid">Submit</button>
+          <button mat-raised-button color="primary" *ngIf="edit_mode" [disabled]="reviewForm.invalid">Update</button>
+          <button mat-raised-button type="button" color="warn">Cancel</button>
+        </mat-card-actions>
+      </form>
+    </mat-card>
+  </div>
+</div>

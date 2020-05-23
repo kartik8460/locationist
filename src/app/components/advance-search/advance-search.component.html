@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="search-container">
+    <div class="search">
+      <input type="search" [(ngModel)]="searchKey" placeholder="Search"><button (click)="search()"><mat-icon>search</mat-icon></button>
+    </div>
+    <button class="filter-button" mat-raised-button color="accent" (click)="filterSearch()"><mat-icon>filter_list</mat-icon>Filter Options</button>
+  </div>
+
+  <div class="locations-container" *ngIf="locationsList">
+    <div class="locations">
+      <div class="location-head">
+        <h2>Locations List</h2>
+      </div>
+      <div class="location-list">
+        <mat-card *ngFor="let location of locationsList; let i = index">
+          <mat-card-title (click)="goToLocation(location._id)">
+            {{i+1}}. {{location.name}}
+          </mat-card-title>
+          <mat-card-content>
+            {{location.address.line_1}}, <br>
+            <div *ngIf="location.address.line_2">{{location.address.line_2}},<br></div>
+            {{location.address.city}},<br>
+            {{location.address.state_ut}} - {{location.address.zipcode}}<br>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="map" *ngIf="center">
+      <google-map height="100%" width="100%" [zoom]="zoom" [center]="center">
+        <map-marker #marker
+          *ngFor="let location of locationsList; let i = index"
+          [position]="{ lat: location.loc.coordinates[1], lng:location.loc.coordinates[0]}"
+          [label]="{color: 'black', text: (i+1).toString()}"
+          (mapClick)="openInfo(marker, location.name)">
+          <map-info-window>{{infocontent}}</map-info-window>
+        </map-marker>
+      </google-map>
+    </div>
+  </div>
+</div>

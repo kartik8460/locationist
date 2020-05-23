@@ -1,0 +1,91 @@
+mat-card {
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 50px;
+}
+
+mat-card-header {
+  justify-content: center;
+  background-color: #673ab7;
+  color: white;
+  border-radius:5px;
+}
+
+mat-card-title {
+  width: 100%;
+}
+
+mat-card-content{
+  margin-top: 4%;
+}
+
+mat-card-title h3 {
+  font: 400 30px/28px "Roboto","Helvetica Neue",sans-serif;
+}
+
+mat-form-field{
+  display: block;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+mat-card-actions {
+  text-align: center;
+}
+
+mat-card-content {
+  text-align: left;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+textarea {
+  height: 70px;
+}
+.after-search mat-label{
+  font-size: 24px;
+  vertical-align: middle;
+  margin-right: 15px;
+}
+.after-search {
+  text-align: center;
+}
+.media_preview {
+  display: block;
+}
+
+.preview_inside {
+  display: inline-block;
+  position: relative;
+  margin-left: 10px;
+}
+
+.preview_inside img {
+  height: 150px;
+  width: 200px;
+}
+.preview_inside video {
+  height: 150px;
+  width: 200px;
+}
+.preview_inside img, video {
+  border: solid;
+  border-color: rgb(29, 28, 28);
+  text-align: center;
+  margin-top: 5px;
+}
+.preview_inside button{
+  position: absolute;
+  top: 7px;
+  right: 2px;
+  z-index: 100;
+}
+
+@media only screen and (max-width: 600px) {
+  mat-card{
+    width: 90%;
+  }
+}

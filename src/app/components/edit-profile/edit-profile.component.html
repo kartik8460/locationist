@@ -1,0 +1,186 @@
+<mat-dialog-content>
+  <form *ngIf="data.mode=='profile'" [formGroup]='editForm'>
+    <h2 mat-dialog-title>Edit Profile Info</h2>
+    <mat-form-field  appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input formControlName="first_name" matInput placeholder="First Name" type="text">
+      <mat-error *ngIf="first_name.errors?.required && first_name.touched">Please Enter Your First Name</mat-error>
+    </mat-form-field>
+
+    <mat-form-field  appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input formControlName="last_name" matInput placeholder="Last_name" type="text">
+      <mat-error *ngIf="last_name.errors?.required && last_name.touched">Please Enter Your Last Name</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Select Birthday</mat-label>
+      <input matInput formControlName="dob" [matDatepicker]="dob" placeholder="Choose a date" [max]="maxDate">
+      <mat-hint>Date format:-  M/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="dob" ></mat-datepicker-toggle>
+      <mat-datepicker touchUi #dob disabled="false"></mat-datepicker>
+    </mat-form-field>
+
+    <div formGroupName="from">
+      <mat-form-field appearance="outline">
+        <mat-label>Select State</mat-label>
+        <mat-select formControlName="state" >
+          <mat-option>None</mat-option>
+          <mat-option value="Gujarat">Gujarat</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="state.value?.length > 0" appearance="outline">
+        <mat-label>Select City</mat-label>
+        <mat-select formControlName="city">
+          <mat-option>None</mat-option>
+          <mat-option value="Ahmedabad">Ahmedabad</mat-option>
+          <mat-option value="Surat">Surat</mat-option>
+          <mat-option value="Vadodara">Vadodara</mat-option>
+          <mat-option value="Porbandar">Porbandar</mat-option>
+          <mat-option value="Rajkot">Rajkot</mat-option>
+          <mat-option value="Bhavnagar">Bhavnagar</mat-option>
+          <mat-option value="Jamnagar">Jamnagar</mat-option>
+          <mat-option value="Junagadh">Junagadh</mat-option>
+          <mat-option value="Anand">Anand</mat-option>
+          <mat-option value="Navsari">Navsari</mat-option>
+          <mat-option value="Surendranagar">Surendranagar</mat-option>
+          <mat-option value="Morbi">Morbi</mat-option>
+          <mat-option value="Gandhidham">Gandhidham</mat-option>
+          <mat-option value="Nadiad">Nadiad</mat-option>
+          <mat-option value="Bharuch">Bharuch</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Gender</mat-label>
+      <mat-select formControlName="gender" >
+        <mat-option>None</mat-option>
+        <mat-option value="Male">Male</mat-option>
+        <mat-option value="Female">Female</mat-option>
+        <mat-option value="Others">Others</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field  appearance="outline">
+      <mat-label>Phone No.</mat-label>
+      <span style="vertical-align: middle; padding: 0 0 10px 0; display: inline-block;" matPrefix>+91</span>
+      <input formControlName="phone_no" matInput color="accent" placeholder="Phone No" type="number">
+      <mat-error *ngIf="phone_no.errors?.pattern && phone_no.touched">Phone Enter a Valid Phone number</mat-error>
+    </mat-form-field>
+
+    <mat-form-field  appearance="outline">
+      <mat-label>About You</mat-label>
+      <textarea formControlName="about" matInput placeholder="Write Something" type="text"></textarea>
+      <mat-error *ngIf="last_name.errors?.required && last_name.touched">Please Enter Your Last Name</mat-error>
+    </mat-form-field>
+
+  </form>
+
+  <form *ngIf="data.mode=='pic-cover'"  [formGroup]='editForm'>
+    <h2 mat-dialog-title>Update Cover Picture</h2>
+    <div class="note">
+      <span>Note : </span><br>
+      <ul>
+        <li>Please Select a proper 3:1 ratio image for a great profile display experience</li>
+        <li>Image size should be less than 30 MB</li>
+        <li>Image should be of Type PNG/JPG</li>
+      </ul>
+    </div>
+    <div class="cover_image" *ngIf="cover_preview">
+      <img class="cover_image_inside" [src]="cover_preview">
+    </div>
+    <button (click)="uploadCover.click()" mat-raised-button type="button" color="accent"><mat-icon>add_a_photo</mat-icon></button>
+    <input #uploadCover type="file" accept="image/*" (change)="selectCoverPhoto($event)" hidden>
+    &nbsp;&nbsp;<mat-error *ngIf="cover_pic_error">{{cover_pic_error}}</mat-error>
+  </form>
+
+  <form *ngIf="data.mode=='pic-profile'"  [formGroup]='editForm'>
+    <h2 mat-dialog-title>Update Profile Picture</h2>
+    <div class="note">
+      <span>Note : </span><br>
+      <ul>
+        <li>Please Select a proper 1:1 ratio image for a great profile display experience</li>
+        <li>Image size should be less than 15 MB</li>
+        <li>Image should be of Type PNG/JPG </li>
+      </ul>
+    </div>
+    <div class="profile_image" *ngIf="profile_preview">
+      <img class="profile_image_inside" [src]="profile_preview">
+    </div>
+    <button (click)="uploadprofile.click()" mat-raised-button type="button" color="accent"><mat-icon>add_a_photo</mat-icon></button>
+    <input #uploadprofile type="file" accept="image/*" (change)="selectProfilePhoto($event)" hidden>
+    &nbsp;&nbsp;<mat-error *ngIf="profile_pic_error">{{profile_pic_error}}</mat-error>
+  </form>
+
+  <form *ngIf="data.mode=='social'"  [formGroup]='editForm'>
+    <h2 mat-dialog-title>Update Social Accounts</h2>
+    <div formGroupName='social'>
+      <mat-form-field  appearance="outline">
+        <mat-label>Instagram Link</mat-label>
+        <input formControlName="instagram" matInput placeholder="Enter Url" type="text">
+        <mat-error *ngIf="instagram.errors?.pattern && instagram.touched">Please Enter valid url</mat-error>
+      </mat-form-field>
+
+      <mat-form-field  appearance="outline">
+        <mat-label>Facebook Link</mat-label>
+        <input formControlName="facebook" matInput placeholder="Enter Url" type="text">
+        <mat-error *ngIf="facebook.errors?.pattern && facebook.touched">Please Enter valid url</mat-error>
+      </mat-form-field>
+
+      <mat-form-field  appearance="outline">
+        <mat-label>Youtube Link</mat-label>
+        <input formControlName="youtube" matInput placeholder="Enter Url" type="text">
+        <mat-error *ngIf="youtube.errors?.pattern && youtube.touched">Please Enter valid url</mat-error>
+      </mat-form-field>
+
+      <mat-form-field  appearance="outline">
+        <mat-label>Twitter Link</mat-label>
+        <input formControlName="twitter" matInput placeholder="Enter Url" type="text">
+        <mat-error *ngIf="twitter.errors?.pattern && twitter.touched">Please Enter valid url</mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+
+  <form *ngIf="data.mode=='changePassword'"  [formGroup]='editForm'>
+    <h2 mat-dialog-title>Change Password</h2>
+    <mat-form-field  appearance="outline">
+      <mat-label>Current Password</mat-label>
+      <input formControlName="current_password" matInput placeholder="Enter Current Password" type="password">
+      <mat-error *ngIf="current_password.errors?.required&& current_password.touched">Please Enter your current Password</mat-error>
+    </mat-form-field>
+
+    <mat-form-field  appearance="outline">
+      <mat-label>New Password</mat-label>
+      <input formControlName="password" matInput placeholder="Enter New Passowrd" type="password">
+      <mat-error *ngIf="password.errors && password.touched">
+        <span *ngIf="password.errors.required">Please Enter Password</span>
+        <span *ngIf="password.errors.pattern">Password should be more than 8 and less than 24 characters and should contain<br>
+          1. "One Uppercase Letter"<br>
+          2. "One Lowercase Letter"<br>
+          3. "One Number"<br>
+          4. "One Special Symbol"</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field [class.error_gap]="password.errors?.pattern && password.touched"  appearance="outline">
+      <mat-label>Confirm New Password</mat-label>
+      <input formControlName="confirmPassword" matInput placeholder="Enter New Password Again" type="password">
+      <mat-error *ngIf="confirmPassword.errors?.required && confirmPassword.touched">Please Enter Confirm Password</mat-error>
+    </mat-form-field>
+    <small style="text-align: center; margin-top: 10px;">
+      <mat-error *ngIf="editForm.errors?.mismatch && !editForm.errors?.match && !password.errors && confirmPassword.touched && password.touched">Password
+        and Confirm Password does not match</mat-error>
+      <mat-error *ngIf="editForm.errors?.match && current_password.touched && password.touched" >Your current Password Cannot be your New Password</mat-error>
+    </small>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button *ngIf="data.mode==='profile' || data.mode==='social'" [disabled]='this.editForm.invalid' [mat-dialog-close]="editForm.value" color="primary">Update</button>
+  <button mat-raised-button *ngIf="data.mode==='changePassword'" [disabled]='this.editForm.invalid' (click)="changePassword()" color="primary">Change Password</button>
+  <button mat-raised-button *ngIf="data.mode === 'pic-cover'" [disabled]='this.editForm.invalid' (click)="updateCoverPhoto()" color="primary">Update Cover</button>
+  <button mat-raised-button *ngIf="data.mode === 'pic-profile'" [disabled]='this.editForm.invalid' (click)="updateProfilePhoto()" color="primary">Update Profile Picture</button>
+  <button mat-raised-button mat-dialog-close="false" color="warn">Cancel</button>
+</mat-dialog-actions>

@@ -1,0 +1,6 @@
+<div class="message">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <p *ngIf="!isLoading && message" style="text-align: center;">{{message}} <br> </p>
+  <button *ngIf="!isLoading && message && !resend && !invalid" mat-raised-button color="accent" (click)="resendLink()">Send Account Verification Link</button>
+  <button *ngIf="!isLoading && message && resend && !invalid" mat-raised-button color="primary" (click)="resendLink()">Resend Account Verification Link</button>
+</div>

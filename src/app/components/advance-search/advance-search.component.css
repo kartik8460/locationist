@@ -1,0 +1,153 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-container{
+  border-radius: 10px;
+  padding: 25px 0;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+
+.search input{
+  width: 400px;
+  height: 75px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border:solid 2px gray;
+  padding-left:20px ;
+  font-size: 20px;
+  border-right: none;
+}
+
+.search button{
+  height: 75px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border: solid 2px gray;
+  vertical-align: bottom;
+  background-color: white;
+  cursor: pointer;
+}
+
+.search button:focus, .search input:focus{ outline: none;}
+
+.search button:active{
+  background-color: whitesmoke;
+}
+
+.filter-button {
+  margin: 15px 15px ;
+}
+
+.locations-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.locations {
+  order: 2;
+  width: 400px;
+  margin: 15px 0 15px 15px;
+  height: calc(100vh - 189px);
+}
+
+.location-head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background-color: white;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom: solid 5px gray;
+}
+
+.location-list{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: calc(100% - 125px);
+  overflow: auto;
+  border: solid 10px white;
+}
+.location-list::-webkit-scrollbar{
+  width: 7px;
+  background: white;
+}
+
+.location-list::-webkit-scrollbar-track {
+  border-radius: 7px;
+}
+
+.location-list::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: rgb(139, 137, 137);
+}
+
+.map {
+  order: 1;
+  width: calc(100% - 450px);
+  margin: 15px 0;
+  padding: 10px;
+  background-color: white;
+  height: calc(100vh - 189px);
+}
+
+.mat-card {
+  width: calc(90% - 20px);
+  margin: 15px 10px;
+}
+
+.mat-card mat-card-title{
+  cursor: pointer;
+}
+
+.mat-card mat-card-title:hover{
+  background-color: whitesmoke;
+}
+
+@media only screen and (max-width:1024px){
+  .search input{
+    width: 300px;
+  }
+
+  .locations-container{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .map {
+    padding: 5px;
+    width: calc(98% - 10px);
+  }
+
+  .locations{
+    width: 85%;
+    height: fit-content;
+  }
+
+  .location-list{
+    border-right: 0px;
+    height: 80vh;
+  }
+}
+
+@media only screen and (max-width: 600px){
+  .map {
+    height: 50vh;
+  }
+  .search input{
+    width: 200px;
+  }
+}

@@ -1,0 +1,27 @@
+<mat-card *ngIf="!isLoading">
+  <mat-card-header>
+    <mat-card-title ><h3>Login</h3></mat-card-title>
+  </mat-card-header>
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <mat-card-content>
+      <mat-form-field>
+        <input formControlName="email" matInput color="accent" placeholder="Email" type="email">
+        <mat-error *ngIf="email.errors?.required && email.touched">Please Enter a Email</mat-error>
+        <mat-error *ngIf="email.errors?.pattern && email.touched">Please Enter a valid Email</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input formControlName="password" matInput color="accent" placeholder="Password" type="password">
+        <mat-error *ngIf="password.errors?.required && password.touched">Please Enter a Password</mat-error>
+      </mat-form-field>
+      <mat-error *ngIf="error">{{error}}</mat-error>
+    </mat-card-content>
+    <mat-card-footer>
+      <mat-card-actions>
+        <button mat-raised-button [disabled]="!loginForm.valid" type="submit" color="primary">Login</button> <br><br>
+        <a mat-button routerLink="/forgot-password">Forgot Password</a>
+        <a mat-button routerLink="/register">New here? Please Register</a>
+      </mat-card-actions>
+    </mat-card-footer>
+  </form>
+</mat-card>
+<mat-spinner *ngIf="isLoading"></mat-spinner>

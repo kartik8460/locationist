@@ -1,0 +1,55 @@
+<div class="rating">
+  <ul>
+    <li *ngFor="let star of stars">
+      <mat-icon (mouseover)="hovered = star" (mouseout)="hovered = null" (click)="rated(star)"  [class.hover-gold]="star <= hovered || star <= rating">
+        star
+      </mat-icon>
+    </li>
+  </ul>
+</div>
+
+<div class="rating-scorecard">
+  <div class="rating-head">
+    <div>User Ratings</div> <div><mat-icon [class.hover-gold]="star <= rating" *ngFor="let star of stars">star</mat-icon></div>
+  </div>
+  <div class="average-rating">
+    <mat-label>Average rating 4.1 based on x reviews</mat-label>
+  </div>
+  <div class="scorecard">
+    <div class="left">5</div>
+    <div class="middle">
+      <div class="bar">
+        <div class="bar-result" style="width: 40%; background-color:#4CAF50"></div>
+      </div>
+    </div>
+    <div class="right">25</div>
+    <div class="left">4</div>
+    <div class="middle">
+      <div class="bar">
+        <div class="bar-result" style="width: 30%; background-color: #2196F3"></div>
+      </div>
+    </div>
+    <div class="right">52</div>
+    <div class="left">3</div>
+    <div class="middle">
+      <div class="bar">
+        <div class="bar-result" style="width: 15%; background-color: #00bcd4"></div>
+      </div>
+    </div>
+    <div class="right">45</div>
+    <div class="left">2</div>
+    <div class="middle">
+      <div class="bar">
+        <div class="bar-result" style="width: 10%; background-color: #ff9800"></div>
+      </div>
+    </div>
+    <div class="right">25</div>
+    <div class="left">1</div>
+    <div class="middle">
+      <div class="bar">
+        <div class="bar-result" style="width: 5%; background-color: #f44336"></div>
+      </div>
+    </div>
+    <div class="right">52</div>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+mat-spinner{
+  margin:auto ;
+}
+
+mat-card {
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 50px;
+}
+
+mat-card-header {
+  justify-content: center;
+  background-color: #673ab7;
+  color: white;
+  border-radius:5px;
+}
+
+mat-card-title {
+  width: 95%;
+}
+
+mat-card-title h3 {
+  font: 400 30px/28px "Roboto","Helvetica Neue",sans-serif;
+}
+
+mat-card-content{
+  text-align: center;
+  margin: auto;
+  margin-top: 4%;
+}
+
+mat-form-field{
+  display: block;
+  width: 50%;
+  padding: 5px;
+  margin-top: 5px;
+  margin: auto;
+}
+
+mat-card-actions {
+  text-align: center;
+  display: block;
+}
+.error_gap{
+  margin-top: 75px;
+}
+
+@media only screen and (max-width: 600px) {
+  mat-card{
+    width: 90%;
+  }
+}

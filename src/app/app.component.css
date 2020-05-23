@@ -1,0 +1,142 @@
+.navigation ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.logo{
+  height: 30px;
+  width: 30px;
+  vertical-align: middle;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  margin-right: 10px;
+  min-width: 115px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat_toolbar button{
+  visibility: hidden;
+  display: none;
+  margin: 0;
+  height: 100%;
+  padding: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.mat_toolbar a {
+  margin-left: 35px;
+}
+
+.main{
+  height: fit-content;
+  min-height: calc(100vh - 64px);
+}
+
+.profile_pic{
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+mat-sidenav-container,mat-sidenav-content, mat-sidenav {
+  height: 100%;
+  background-color: whitesmoke;
+}
+
+mat-sidenav{
+  display: none;
+}
+
+mat-icon {
+  cursor: pointer;
+  padding-bottom: 0px;
+  margin-right: 6px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .spacer {
+    flex: 0;
+  }
+
+  mat-sidenav {
+    display: block;
+    width: 300px;
+    background-color: white;
+  }
+
+  .mat-toolbar-row{
+    height: 64px;
+  }
+
+  .side-navigation{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .side-navigation li{
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .side-navigation a, .side-navigation button {
+    margin: 0;
+    padding-left: 10px;
+    width: 100%;
+    text-align: left;
+  }
+
+  .sidenav-profile{
+    padding: 10px 0 0 30px;
+    width : calc(100% - 30px)
+  }
+
+  .sidenav-profile button, .sidenav-profile a{
+    display: block;
+    padding: 10px;
+    margin-top: 5px;
+    width: fit-content;
+  }
+
+  .mat-menu-content{
+    width: 100%;
+  }
+
+  .navigation ul{
+    display: none;
+  }
+
+  .mat_toolbar a {
+    margin: auto;
+    vertical-align: -2px;
+  }
+
+  .mat_toolbar{
+    display: block;
+    text-align: center;
+  }
+
+  .mat_toolbar button {
+    visibility: visible;
+    display: inline;
+  }
+
+}
+
+@media only screen and (max-width: 600px){
+  mat-sidenav {
+    width: 200px;
+  }
+}

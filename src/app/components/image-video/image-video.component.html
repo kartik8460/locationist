@@ -1,0 +1,5 @@
+<div class="media">
+  <img *ngIf="data.mode === 'image'" [src]="data.url">
+  <video *ngIf="data.mode === 'video'" controls><source [src]="data.url"></video>
+    <button mat-dialog-close><mat-icon>clear</mat-icon></button>
+</div>

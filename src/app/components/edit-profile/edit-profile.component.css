@@ -1,0 +1,88 @@
+mat-form-field {
+  display: block;
+  margin-top: 10px;
+}
+h2{
+  text-align: center;
+  color: white;
+  background-color: #673ab7;
+  padding: 15px 0;
+  border-radius: 15px;
+}
+
+textarea{
+  min-height: 70px;
+  height: 95px;
+  max-height: 120px;
+}
+
+.error_gap{
+  margin-top: 90px;
+}
+
+input[type="file"]{
+  visibility: hidden;
+}
+
+.cover_image, .cover_image_inside{
+  height: 200px;
+  width: 600px;
+}
+
+.profile_image, .profile_image_inside{
+  height: 200px;
+  width: 200px;
+}
+
+.cover_image, .profile_image {
+  border: solid 3px gold
+}
+
+.cover_image, .profile_image{
+  margin: auto;
+  margin-bottom: 35px;
+}
+
+.note{
+  display: block;
+  height: 150px;
+  font: 15px Roboto;
+  color: gray;
+}
+
+@media only screen and (max-width: 800px) {
+  .cover_image, .cover_image_inside{
+    height: 133px;
+    width: 400px;
+  }
+
+  .cover_image{
+    margin-bottom: 25px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .cover_image, .cover_image_inside{
+    height: 80px;
+    width: 240px;
+  }
+
+  .cover_image{
+    margin-bottom: 25px;
+  }
+
+  .profile_image, .profile_image_inside{
+    height: 100px;
+    width: 100px;
+  }
+
+  .profile_image{
+    margin-bottom: 25px;
+  }
+
+  .note{
+    font: 12px Roboto;
+    height: 100px;
+  }
+}
+

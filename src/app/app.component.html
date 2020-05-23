@@ -1,0 +1,84 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <div class="mat_toolbar">
+          <a routerLink="/" (click)="sidenav.toggle()"><img class="logo" src="./../assets/locationist_logo_100x100_2.png"> Locationist</a>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <ul class="side-navigation">
+      <li>
+        <a mat-button routerLink="/advance-search" routerLinkActive="mat-accent" color="primary" (click)="sidenav.close()"><mat-icon>search</mat-icon>Advance Search</a>
+      </li>
+      <li *ngIf="isAuthenticated">
+        <a mat-button routerLink="/add-review" routerLinkActive="mat-accent" color="primary" (click)="sidenav.close()"><mat-icon>create</mat-icon>Write Review</a>
+      </li>
+      <li *ngIf="isAuthenticated">
+        <a mat-button routerLink="/add-post" routerLinkActive="mat-accent" color="primary" (click)="sidenav.close()"><mat-icon>post_add</mat-icon>Add Post</a>
+      </li>
+      <li *ngIf="!isAuthenticated">
+        <a mat-button routerLink="/login" routerLinkActive="mat-accent" color="primary" (click)="sidenav.close()"><mat-icon>input</mat-icon>Login</a>
+      </li>
+      <li *ngIf="!isAuthenticated">
+        <a mat-button routerLink="/register" routerLinkActive="mat-accent" color="primary" (click)="sidenav.close()"><mat-icon>open_in_browser</mat-icon>Signup</a>
+      </li>
+      <li *ngIf="isAuthenticated">
+        <button mat-button (click)="isSideProfile = !isSideProfile"><img class="profile_pic" *ngIf="user.profile_pic" [src]="user.profile_pic" color="primary">{{user.user_name}}
+          <mat-icon *ngIf='!isSideProfile'>expand_less</mat-icon>
+          <mat-icon *ngIf='isSideProfile'>expand_more</mat-icon>
+        </button>
+        <div class="sidenav-profile" *ngIf="isSideProfile">
+          <a mat-button style="color: black;" routerLink="/my-profile"  (click)="sidenav.close()"><mat-icon>person</mat-icon>View Profile</a>
+          <button mat-button (click)= "onLogout()"><mat-icon>power_settings_new</mat-icon>Logout</button>
+        </div>
+      </li>
+    </ul>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <div class="mat_toolbar">
+          <button mat-button (click)="sidenav.toggle()"><mat-icon >menu</mat-icon></button>
+          <a routerLink="/"><img class="logo" src="./../assets/locationist_logo_100x100_2.png"> Locationist</a>
+        </div>
+        <span class="spacer"></span>
+        <div class="navigation">
+          <ul>
+            <li>
+              <a class="mat-elevation-z10" mat-raised-button routerLink="/advance-search" routerLinkActive="mat-accent" color="primary"><mat-icon>search</mat-icon>Advance Search</a>
+            </li>
+            <li *ngIf="isAuthenticated">
+              <a class="mat-elevation-z10" mat-raised-button routerLink="/add-review" routerLinkActive="mat-accent" color="primary"><mat-icon>create</mat-icon>Write Review</a>
+            </li>
+            <li *ngIf="isAuthenticated">
+              <a class="mat-elevation-z10" mat-raised-button routerLink="/add-post" routerLinkActive="mat-accent" color="primary"><mat-icon>post_add</mat-icon>Add Post</a>
+            </li>
+            <li *ngIf="!isAuthenticated">
+              <a class="mat-elevation-z10" mat-raised-button routerLink="/login" routerLinkActive="mat-accent" color="primary"><mat-icon>input</mat-icon>Login</a>
+            </li>
+            <li *ngIf="!isAuthenticated">
+              <a class="mat-elevation-z10" mat-raised-button routerLink="/register" routerLinkActive="mat-accent" color="primary"><mat-icon>open_in_browser</mat-icon>Signup</a>
+            </li>
+            <li *ngIf="isAuthenticated">
+              <button class="mat-elevation-z10" mat-raised-button color="primary" [matMenuTriggerFor]="menu"><img class="profile_pic" *ngIf="user.profile_pic" [src]="user.profile_pic" >{{user.user_name}}</button>
+                <mat-menu #menu="matMenu">
+                  <a style="color: black;" routerLink="/my-profile" mat-menu-item><mat-icon>person</mat-icon>View Profile</a>
+                  <button mat-menu-item (click)= "onLogout()"><mat-icon>power_settings_new</mat-icon>Logout</button>
+                </mat-menu>
+            </li>
+          </ul>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="main">
+      <router-outlet></router-outlet>
+    </div>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row></mat-toolbar-row>
+    </mat-toolbar>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+

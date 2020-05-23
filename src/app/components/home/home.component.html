@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="upper-container">
+    <img [src]="cover_src" alt="Home-Cover">
+    <div class="search" [class.is-open]="autoLocations.isOpen">
+      <input class="mat-elevation-z10" type="search" (keyup)="onKeyUpSearch($event.target.value)" placeholder="Search" [matAutocomplete]="autoLocations">
+      <button><mat-icon>search</mat-icon></button>
+      <mat-autocomplete #autoLocations (optionSelected)="optionSelected($event.option.value)">
+        <mat-option value='Near By'><mat-icon fontSet="material-icons-outlined">near_me</mat-icon> Near By </mat-option>
+        <mat-option *ngIf="isLoading "><mat-spinner style="margin: auto;" diameter="35"></mat-spinner></mat-option>
+        <div *ngIf="!isLoading">
+          <mat-option *ngFor="let option of searchOptions" [value]="option">
+            <mat-icon fontSet="material-icons-outlined">location_on</mat-icon>{{ option.name }}
+          </mat-option>
+        </div>
+      </mat-autocomplete>
+    </div>
+  </div>
+  <div class="lower-container">
+    <div class="lower-container-content">
+      <div class="left">
+        <div class="left-top mat-elevation-z6">
+          <div class="media"><a mat-button [routerLink]="['/add-post']"><mat-icon>camera_alt</mat-icon><strong>Add Post</strong></a></div>
+          <div class="review"><a mat-button [routerLink]="['/add-review']"><mat-icon>create</mat-icon><strong>Write Review</strong></a></div>
+        </div>
+        <!--<div class="left-bottom mat-elevation-z6">
+          <div class="recent-searches-head"><mat-label><strong>Recent Searches</strong></mat-label></div>
+          <div class="recent-searches">
+            <ul>
+              <li><a href="">Location_1</a></li>
+              <li><a href="">Location_2</a></li>
+              <li><a href="">Location_3</a></li>
+              <li><a href="">Location_4</a></li>
+              <li><a href="">Location_5</a></li>
+              <li><a href="">Location_6</a></li>
+              <li><a href="">Location_7</a></li>
+              <li><a href="">Location_8</a></li>
+              <li><a href="">Location_9</a></li>
+              <li><a href="">Location_10</a></li>
+            </ul>
+          </div>
+        </div>-->
+      </div>
+      <div class="right  mat-elevation-z6">
+        <div class="right-head">
+          <mat-label><strong>Recent Reviews</strong></mat-label>
+        </div>
+        <div class="right-content">
+          <mat-card *ngFor="let review of reviews; index as i" class="mat-elevation-z24">
+            <mat-card-header>
+              <div mat-card-avatar class="review-image">
+                <img [src]="review.userId.profile_pic">
+              </div>
+              <mat-card-title>{{review.userId.first_name}} {{ review.userId.last_name }}</mat-card-title>
+              <mat-card-subtitle><a mat-button [routerLink]="['/location/',review.locationId._id]"><small>{{ review.locationId.name }}</small></a></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-label>{{review.rating}}<mat-icon>star</mat-icon></mat-label>
+              <p>{{review.review}}</p>
+            </mat-card-content>
+            <mat-card-actions *ngIf="isAuthenticated && review.userId._id === userId">
+              <a mat-raised-button color="accent" [routerLink]="['/add-review', { id:review.locationId._id }]">Edit</a>
+              <button mat-raised-button color="warn" (click)="deleteReview(review._id, i)">Delete</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="middle">
+        <mat-card *ngFor="let post of postData; index as i;" class="mat-elevation-z8">
+          <mat-card-header>
+            <div mat-card-avatar class="review-image">
+              <img [src]="post.creatorId.profile_pic">
+            </div>
+            <mat-card-title> {{post.creatorId.first_name}} {{post.creatorId.last_name}} </mat-card-title>
+            <mat-card-subtitle><a mat-button [routerLink]="['/location/',post.locationId._id]">{{post.locationId.name}}</a></mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <h3>{{post.title}}</h3>
+            <p style="text-align: justify;">{{post.description}}</p>
+
+            <div class="media_preview" *ngIf="post.imagesPaths.length > 0">
+              <mat-label>Images:</mat-label> <br>
+              <div class="preview_inside" *ngFor="let image of post.imagesPaths">
+                <img (click)="showMedia('image', image)" [src]="image" [alt]="post.title" >
+              </div>
+            </div>
+            <br>
+            <div class="media_preview" *ngIf="post.videosPaths?.length > 0">
+              <mat-label>Videos:</mat-label> <br>
+              <div class="preview_inside" *ngFor="let video of post.videosPaths">
+                <video (click)="showMedia('video', video)" style="background-color: darkgrey;"><source [src]="video"></video>
+              </div>
+            </div>
+
+          </mat-card-content>
+          <mat-card-actions *ngIf="isAuthenticated && post.creatorId._id === userId">
+            <a mat-raised-button color="primary" [routerLink]="['/edit_post',post._id]">Edit</a>
+            <button mat-raised-button color="warn" (click)="deletePost(post._id, i)">Delete</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,205 @@
+<div class="profile-container">
+  <!-- Upper Container -->
+  <div class="upper-container">
+    <div class="cover-photo">
+      <img *ngIf='userProfile.cover_pic' [src]="userProfile.cover_pic">
+    </div>
+    <div class="profile-photo">
+      <img *ngIf='userProfile.profile_pic' [src]="userProfile.profile_pic" class="mat-elevation-z24">
+    </div>
+  </div>
+  <!-- Lower Container -->
+
+  <div class="main-content">
+    <div class="profile-content">
+      <span>{{userProfile.first_name}} {{userProfile.last_name}}</span>
+      <button mat-raised-button color="primary" [matMenuTriggerFor]="appMenu" *ngIf="isProfile">Edit Profile<mat-icon> menu </mat-icon></button>
+      <mat-menu #appMenu="matMenu">
+        <button mat-menu-item (click)="editProfile('profile')">Update Intro</button>
+        <button mat-menu-item (click)="editProfile('pic-cover')">Update Cover Photo</button>
+        <button mat-menu-item (click)="editProfile('pic-profile')">Update Profile Photo</button>
+        <button mat-menu-item (click)="editProfile('social')">Update Social Accounts</button>
+        <button mat-menu-item (click)="editProfile('changePassword')">Change Password</button>
+      </mat-menu>
+    </div>
+  </div>
+
+  <div class="lower-container">
+    <mat-tab-group mat-stretch-tabs dynamicHeight backgroundColor="primary" (selectedTabChange)="tabSelected($event)">
+      <mat-tab label="Info">
+        <div class="info-side">
+          <div class="profile-info">
+
+            <div class="info">
+              <div class="info-head">
+                <mat-icon fontSet="material-icons-outlined">person</mat-icon>
+              </div>
+              <div class="info-content">
+                <mat-label>{{userProfile.first_name}} {{userProfile.last_name}}</mat-label>
+              </div>
+            </div>
+
+            <div class="info">
+              <div class="info-head">
+                <mat-icon fontSet="material-icons-outlined">email</mat-icon>
+              </div>
+              <div class="info-content">
+                <mat-label>{{userProfile.email}}</mat-label>
+              </div>
+            </div>
+
+
+            <div class="info" *ngIf="userProfile.dob">
+              <div class="info-head">
+                <mat-icon fontSet="material-icons-outlined">cake</mat-icon>
+              </div>
+              <div class="info-content">
+                <mat-label>{{userProfile.dob | date}}</mat-label>
+              </div>
+            </div>
+
+            <div class="info">
+              <div class="info-head">
+                <mat-icon fontSet="material-icons-outlined">calendar_today</mat-icon>
+              </div>
+              <div class="info-content">
+                <mat-label>Joined on {{userProfile.createdAt | date}}</mat-label>
+              </div>
+            </div>
+
+
+            <div class="info" *ngIf="userProfile.from && userProfile.from?.state">
+              <div class="info-head">
+                <mat-icon fontSet="material-icons-outlined">home_work</mat-icon>
+              </div>
+              <div class="info-content">
+                <mat-label>{{userProfile.from?.city}} {{userProfile.from?.state}}</mat-label>
+              </div>
+            </div>
+
+            <div class="info" *ngIf="userProfile.gender">
+              <div class="info-head">
+                <mat-icon fontSet="material-icons-outlined">face</mat-icon>
+              </div>
+              <div class="info-content">
+                <mat-label>{{userProfile.gender}}</mat-label>
+              </div>
+            </div>
+
+            <div class="info" *ngIf="userProfile.phone_no">
+              <div class="info-head">
+                <mat-icon fontSet="material-icons-outlined">phone</mat-icon>
+              </div>
+              <div class="info-content">
+                <mat-label>{{userProfile.phone_no}}</mat-label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="info-side">
+          <div class="profile-info">
+
+            <div class="info" *ngIf="userProfile.about">
+              <div class="info-head">
+                Bio <mat-icon>menu_book</mat-icon>
+              </div>
+              <div class="info-content">
+                <small>{{userProfile.about}}</small>
+              </div>
+            </div>
+
+            <div class="info" *ngIf="userProfile.social">
+              <div class="social-head">
+                <strong>Social Accounts</strong>
+              </div>
+              <div class="social-content">
+                <span *ngIf="userProfile.social.instagram">
+                  <a class="mat-elevation-z8" [href]="userProfile?.social?.instagram" target="_blank" mat-raised-button><img src="../../../assets/instagram-2.png">Instagram</a>
+                </span>
+
+                <span *ngIf="userProfile.social.facebook">
+                  <a class="mat-elevation-z8" [href]="userProfile?.social?.facebook" target="_blank" mat-raised-button><img src="../../../assets/facebook-2.png">Facebook</a>
+                </span>
+
+                <span *ngIf="userProfile.social.youtube">
+                  <a class="mat-elevation-z8" [href]="userProfile?.social?.youtube" target="_blank" mat-raised-button><img src="../../../assets/youtube-2.png">Youtube</a>
+                </span>
+
+                <span *ngIf="userProfile.social.twitter">
+                  <a class="mat-elevation-z8" [href]="userProfile?.social?.twitter" target="_blank" mat-raised-button><img src="../../../assets/twitter-2.png">Twitter</a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Posts -->
+
+      <mat-tab label="Posts">
+        <div class="posts-tab">
+          <mat-card *ngFor="let post of postsList; index as i;" class="mat-elevation-z8">
+            <mat-card-header>
+              <div mat-card-avatar class="review-image">
+                <img [src]="userProfile.profile_pic">
+              </div>
+              <mat-card-title>{{userProfile.first_name}} {{userProfile.last_name}}</mat-card-title>
+              <mat-card-subtitle><a mat-button [routerLink]="['/location/',post.locationId._id]">{{post.locationId.name}}</a></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <h3>{{post.title}}</h3>
+              <p style="text-align: justify;">{{post.description}}</p>
+              <!-- <div *ngFor="let image of post.imagesPaths">
+                <img [src]="image" [alt]="post.title">
+              </div>
+              <div *ngFor="let video of post.videosPaths">
+                <video style="background-color: darkgrey;" controls><source [src]="video"></video>
+              </div> -->
+
+              <div class="media_preview" *ngIf="post.imagesPaths.length > 0">
+                <mat-label>Images:</mat-label> <br>
+                <div class="preview_inside" *ngFor="let image of post.imagesPaths">
+                  <img [src]="image" [alt]="post.title" >
+                </div>
+              </div>
+              <br>
+              <div class="media_preview" *ngIf="post.videosPaths?.length > 0">
+                <mat-label>Videos:</mat-label> <br>
+                <div class="preview_inside" *ngFor="let video of post.videosPaths">
+                  <video style="background-color: darkgrey;" controls><source [src]="video"></video>
+                </div>
+              </div>
+
+            </mat-card-content>
+            <mat-card-actions *ngIf="isProfile">
+              <a mat-raised-button color="primary" [routerLink]="['/edit_post',post._id]">Edit</a>
+              <button mat-raised-button color="warn" (click)="deletePost(post._id, i)">Delete</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <!-- Reviews -->
+
+      <mat-tab label="Reviews">
+        <div class="reviews-tab">
+          <mat-card *ngFor="let review of reviewsList; let i = index" class="mat-elevation-z10">
+              <mat-card-title (click)="gotoLocation(review.locationId._id)">
+                {{review.locationId.name}} <br>
+              </mat-card-title>
+              <mat-label>{{review.rating}}<mat-icon>star</mat-icon></mat-label>
+            <mat-card-content>
+              <p>{{review.review}}</p>
+            </mat-card-content>
+            <mat-card-actions *ngIf="isProfile">
+              <a mat-raised-button color="accent" [routerLink]="['/add-review', { id:review.locationId._id }]">Edit</a>
+              <button mat-raised-button color="warn" (click)="deleteReview(review._id, i)">Delete</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
