@@ -26,6 +26,7 @@ export class EditProfileComponent implements OnInit {
   get first_name(){
     return this.editForm.get('first_name');
   }
+
   get last_name(){
     return this.editForm.get('last_name');
   }
