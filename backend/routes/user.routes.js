@@ -44,7 +44,7 @@ const emailVerificationSecretKey ="secretkey_for_email_verification";
 
 
 function emailPatternMatch(email) {
-  const emalPattern = /^(([^<>()[\]\\.,;: \s@\']+(\.[^<>()[\]\\.,;: \s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const emalPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   return emalPattern.test(email);
 }
 
@@ -158,11 +158,13 @@ router.get('/user-details/:id', (req ,res, next) => {
 /*** Main Profile ***/
 router.put('/edit-profile/main', checkAuth, (req, res, next) => {
   let user;
-
+  let time = req.body.dob;
+  console.log('DOB ',new Date(req.body.dob).getTime());
+  console.log('DOB ',new Date(req.body.dob));
   user = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
-    dob: req.body.dob,
+    dob: new Date(req.body.dob).getTime(),
     from: req.body.from,
     gender: req.body.gender,
     phone_no: req.body.phone_no,
@@ -170,10 +172,10 @@ router.put('/edit-profile/main', checkAuth, (req, res, next) => {
   }
   User.updateOne({_id: req.body._id}, user)
   .then(result => {
-    console.log(result)
     res.status(201).json({success: true, message: 'Successfully Updated Your Profile'})
   })
-  .catch(err => {
+  .catch(error => {
+    console.log(error);
     res.status(500).json({success: false, message: 'Some Error Occured'})
   })
 })

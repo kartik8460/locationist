@@ -8,7 +8,6 @@ import { AuthGuard } from "./services/auth.guard";
 import { UnAuthGuard } from "./services/un-auth.guard";
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { TestComponent } from './test/test.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ReviewComponent } from './components/review/review.component';
 import { LocationComponent } from './components/location/location.component';
@@ -36,8 +35,6 @@ const routes: Routes = [
   { path: "add-post", component: AddpostComponent , canActivate: [AuthGuard] },
   { path: "edit_post/:postId", component: AddpostComponent, canActivate: [AuthGuard] },
 
-  // Testing
-  { path: "test", component: TestComponent}
 ];
 
 @NgModule({

@@ -89,6 +89,7 @@ export class ProfileComponent implements OnInit {
         switch(mode){
           case 'profile':
             result._id = this.userId;
+            console.log(result, ' kajsdhjukasgdjukashgdjhdsahjhdas')
             this.userService.editProfileMain(result).subscribe(response => {
               if(response.success){
                 this.userProfile.first_name = result.first_name

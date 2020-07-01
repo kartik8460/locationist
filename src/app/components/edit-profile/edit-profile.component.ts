@@ -30,24 +30,31 @@ export class EditProfileComponent implements OnInit {
   get last_name(){
     return this.editForm.get('last_name');
   }
+
   get dob(){
     return this.editForm.get('dob');
   }
+
   get gender(){
     return this.editForm.get('gender');
   }
+
   get phone_no(){
     return this.editForm.get('phone_no');
   }
+
   get about(){
     return this.editForm.get('about');
   }
+
   get from(){
     return this.editForm.get('from');
   }
+
   get city() {
     return this.editForm.get('from').get('city');
   }
+
   get state() {
     return this.editForm.get('from').get('state');
   }
@@ -56,12 +63,15 @@ export class EditProfileComponent implements OnInit {
   get instagram() {
     return this.editForm.get('social').get('instagram')
   }
+
   get facebook() {
     return this.editForm.get('social').get('facebook')
   }
+
   get twitter() {
     return this.editForm.get('social').get('twitter')
   }
+
   get youtube() {
     return this.editForm.get('social').get('youtube')
   }
@@ -70,9 +80,11 @@ export class EditProfileComponent implements OnInit {
   get current_password() {
     return this.editForm.get('current_password')
   }
+
   get password() {
     return this.editForm.get('password')
   }
+
   get confirmPassword() {
     return this.editForm.get('confirmPassword')
   }
@@ -101,7 +113,7 @@ export class EditProfileComponent implements OnInit {
         this.editForm = this.fb.group({
           first_name: ['', Validators.required],
           last_name: ['', Validators.required],
-          dob:[{value:'', disabled: true,},this.DateValidator],
+          dob:[{value:''}],
           gender:[''],
           phone_no:['', [Validators.pattern(/^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/)]],
           from: this.fb.group({

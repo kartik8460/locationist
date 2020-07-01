@@ -19,7 +19,6 @@ import { HomeComponent            } from './components/home/home.component';
 import { AuthInterceptor          } from './services/auth-interceptor';
 import { ResetPasswordComponent   } from './components/reset-password/reset-password.component';
 import { ForgotPasswordComponent  } from './components/forgot-password/forgot-password.component';
-import { TestComponent            } from './test/test.component';
 import { ProfileComponent         } from './components/profile/profile.component';
 import { EditProfileComponent     } from './components/edit-profile/edit-profile.component';
 import { LazyloadDirective        } from './lazyload.directive';
@@ -40,7 +39,6 @@ import { ImageVideoComponent } from './components/image-video/image-video.compon
     HomeComponent,
     ResetPasswordComponent,
     ForgotPasswordComponent,
-    TestComponent,
     ProfileComponent,
     EditProfileComponent,
     LazyloadDirective,
