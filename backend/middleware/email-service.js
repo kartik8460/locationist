@@ -537,8 +537,8 @@ module.exports = (req,res,next) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user:'srk8460@gmail.com',
-      pass:'zxasqw007'
+      user:'your_email@your_email.com',
+      pass:'Your Password'
     }
   });
 
